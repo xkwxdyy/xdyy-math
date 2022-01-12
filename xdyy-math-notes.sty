@@ -49,7 +49,12 @@
   }
 % 产生\__check_align:n的V变体，使得参数可以为tl变量而不是{}
 \cs_generate_variant:Nn \__check_align:n {V}
-
+\cs_new:Npn \__check_enumerate:nnn #1#2#3
+  {
+    \str_if_in:nnTF {#1} {enumerate}
+      {#2}
+      {#3}
+  }
 
 
 \keys_define:nn { xdyy-math-notes / deduce }
@@ -68,7 +73,7 @@
     show-leftbrace .initial:n = true,
     % 是否显示右边的括号
     show-rightbrace .bool_set:N = \l__deduce_rightbrace_show_bool,
-    show-rightbrace .initial:n = true,
+    % show-rightbrace .initial:n = true,
     % leftbrace到arrow的距离
     leftbrace-to-arrow .dim_set:N = \l__deduce_leftbrace_to_arrow_dim,
     leftbrace-to-arrow .initial:n = 7pt,
@@ -84,6 +89,13 @@
 \NewDocumentCommand { \deduce } { O{} +m +m }
   {
     \group_begin:
+      \__check_enumerate:nnn {#3}
+        {
+          \bool_set_true:N \l__deduce_rightbrace_show_bool
+        }
+        {
+          \bool_set_false:N \l__deduce_rightbrace_show_bool
+        }
       \keys_set:nn { xdyy-math-notes / deduce } {#1}
       \begin{tikzpicture}
         \node
