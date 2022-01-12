@@ -70,7 +70,7 @@
     rightbox-align .initial:n = left,
     % 是否显示左边的括号
     show-leftbrace .bool_set:N = \l__deduce_leftbrace_show_bool,
-    show-leftbrace .initial:n = true,
+    % show-leftbrace .initial:n = true,
     % 是否显示右边的括号
     show-rightbrace .bool_set:N = \l__deduce_rightbrace_show_bool,
     % show-rightbrace .initial:n = true,
@@ -79,7 +79,7 @@
     leftbrace-to-arrow .initial:n = 7pt,
     % arrow到rightbrace的距离
     arrow-to-rightbrace .dim_set:N = \l__deduce_arrow_to_rightbrace_dim,
-    arrow-to-rightbrace .initial:n = -1pt,
+    arrow-to-rightbrace .initial:n = 2pt,
     % rightbrace到rightarrow的额外水平移动量
     rightbrace-to-rightbox .dim_set:N = \l__deduce_rightbrace_to_rightbox_horizontal_distance_dim,
     rightbrace-to-rightbox .initial:n = 3mm,
@@ -89,6 +89,21 @@
 \NewDocumentCommand { \deduce } { O{} +m +m }
   {
     \group_begin:
+      \__check_enumerate:nnn {#2}
+        {
+          \bool_set_true:N \l__deduce_leftbrace_show_bool
+          \keys_set:nn { xdyy-math-notes / deduce }
+            {
+              leftbrace-to-arrow = 3.5mm
+            }
+        }
+        {
+          \bool_set_false:N \l__deduce_leftbrace_show_bool
+          \keys_set:nn { xdyy-math-notes / deduce }
+            {
+              leftbrace-to-arrow = 1pt
+            }
+        }
       \__check_enumerate:nnn {#3}
         {
           \bool_set_true:N \l__deduce_rightbrace_show_bool
