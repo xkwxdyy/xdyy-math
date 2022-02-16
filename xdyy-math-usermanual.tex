@@ -1,0 +1,92 @@
+\documentclass{xdyy-usermanual}
+
+\xdyymanualsetup{
+  info = {
+    author            = {夏康玮},
+    title             = { \pkg{xdyy-math} 用户手册},
+    email             = {kangweixia_xdyy@163.com},
+    date              = {2022-02-16},
+    version           = {0.0.1},
+    github-repository = {https://github.com/xkwxdyy/xdyy-math},
+    gitee-repository  = {https://gitee.com/xkwxdyy/xdyy-math},
+  }
+}
+
+\usepackage{xdyy-math}
+
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+
+\section{宏包简介}
+
+自己在记数学笔记的过程中难免会遇到写一些新命令环境，于是想写一个宏包来封装，原本写成了\cmd{cls}文类的形式，但是不够自由，有不小的局限性，于是改成了 \cmd{sty} 宏包的形式。
+
+
+\section{命令介绍}
+
+\subsection{推导命令\tn{deduce}}
+\begin{function}[added = 2022-1-12]{\deduce}
+  \begin{syntax}
+    \tn{deduce} \oarg{\kvopt{key}{val}} \marg{left content} \marg{right content}
+  \end{syntax}
+  思路推导命令，内容部分可以使用 \env{enumerate}、\env{itemize} 等环境
+  \begin{hexample}
+    \deduce{
+      \begin{itemize}
+        \item $3 > 2$
+        \item $2 > 1$
+        \item $1 > 0$
+      \end{itemize}
+    }{
+      \begin{enumerate}
+        \item $3 > 1$
+        \item $2 > 0$
+      \end{enumerate}
+    }
+  \end{hexample}
+\end{function}
+
+\tn{deduce}命令的键值有：
+
+\begin{function}[added = 2022-01-12]{arrow}
+  \begin{syntax}
+    |arrow| = \meta{箭头样式} \init{$\Longrightarrow$}
+  \end{syntax}
+  命令中间箭头的样式
+\end{function}
+
+\begin{function}[added = 2022-01-12]{leftbox-align, rightbox-align}
+  \begin{syntax}
+    |leftbox-align| = \meta{left, center, right} \init{right}
+    |rightbox-align| = \meta{left, center, right} \init{left}
+  \end{syntax}
+  分别对应左边和右边内容的对齐方式，如果使用了 \env{enumerate} 或 \env{itemize} 等环境则不起作用，只对纯文本并且使用\textbackslash \textbackslash 换行产生作用（如果只有一行的话用对齐也没啥太明显的效果hhh）。
+\end{function}
+
+\begin{function}[added = 2022-01-12]{show-leftbrace, show-rightbrace}
+  \begin{syntax}
+    |show-leftbrace| = \meta{true, false} \init{true}
+    |show-rightbrace| = \meta{true, false} \init{true}
+  \end{syntax}
+  是否显示两边的花括号。
+\end{function}
+
+\begin{function}[added = 2022-01-12]{leftbrace-to-arrow, arrow-to-rightbrace}
+  \begin{syntax}
+    |leftbrace-to-arrow| = \meta{dimension} \init{7pt}
+    |arrow-to-rightbrace| = \meta{dimension} \init{2pt}
+  \end{syntax}
+  顾名思义，分别是左括号到箭头的水平距离与箭头到右括号的水平距离。
+\end{function}
+
+\begin{function}[added = 2022-01-12]{rightbrace-to-rightbox}
+  \begin{syntax}
+    |rightbrace-to-rightbox| = \meta{dimension} \init{3mm}
+  \end{syntax}
+  顾名思义，右边的括号到右边内容盒子的水平距离。（因为 \env{enumerate} 或 \env{itemize} 等环境的左侧会有一段小距离，所以设置此键值控制，因为这些环境的右边并没有额外距离，所以没有设置左边括号到左边内容盒子的（如果有需求的话后续再设置））。
+\end{function}
+
+\end{document}

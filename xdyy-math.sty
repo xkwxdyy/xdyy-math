@@ -1,5 +1,6 @@
-\NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesPackage{xdyy-math-notes}[2022/01/11 v0.0.1 A package for taking math notes made by xdyy.]
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{xdyy-math}
+  [2022/02/16 v0.0.1 A LaTeX package for some math needs.]
 
 % 加载宏包
 \RequirePackage{expl3}              % LaTeX3
@@ -61,7 +62,7 @@
   }
 
 
-\keys_define:nn { xdyy-math-notes / deduce }
+\keys_define:nn { xdyy-math / deduce }
   {
     % 中间箭头样式
     arrow .tl_set:N = \l__deduce_arrow_tl,
@@ -96,14 +97,14 @@
       \__check_enumerate_itemize:nnn {#2}
         {
           \bool_set_true:N \l__deduce_leftbrace_show_bool
-          \keys_set:nn { xdyy-math-notes / deduce }
+          \keys_set:nn { xdyy-math / deduce }
             {
               leftbrace-to-arrow = 3.5mm
             }
         }
         {
           \bool_set_false:N \l__deduce_leftbrace_show_bool
-          \keys_set:nn { xdyy-math-notes / deduce }
+          \keys_set:nn { xdyy-math / deduce }
             {
               leftbrace-to-arrow = 1pt
             }
@@ -115,12 +116,9 @@
         {
           \bool_set_false:N \l__deduce_rightbrace_show_bool
         }
-      \keys_set:nn { xdyy-math-notes / deduce } {#1}
+      \keys_set:nn { xdyy-math / deduce } {#1}
       \begin{tikzpicture}
-        \node
-          [
-            
-          ] (leftbox)
+        \node [] (leftbox)
           {
             \begin{varwidth}{\hsize}
               % 内部产生对齐效果
@@ -149,10 +147,7 @@
             \draw
               [
                 decorate,
-                decoration = 
-                  {
-                    brace, amplitude = 5pt,
-                  }
+                decoration = { brace, amplitude = 5pt }
               ]
               (leftbox.north~east) -- (leftbox.south~east) ;
           }
@@ -161,10 +156,7 @@
             \draw
               [
                 decorate,
-                decoration = 
-                  {
-                    brace, mirror, amplitude = 5pt,
-                  },
+                decoration = { brace, mirror, amplitude = 5pt},
               ]
               ([xshift = \l__deduce_rightbrace_to_rightbox_horizontal_distance_dim]rightbox.north~west) -- ([xshift = \l__deduce_rightbrace_to_rightbox_horizontal_distance_dim]rightbox.south~west) ;
           }

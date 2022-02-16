@@ -1,0 +1,75 @@
+\documentclass{ctexart}
+\usepackage{xdyy-math}
+
+\begin{document}
+\deduce[]{
+  \begin{enumerate}
+    \item 1
+    \item 2
+  \end{enumerate}
+}{
+  \begin{enumerate}
+    \item 1
+    \item 2
+  \end{enumerate}
+}
+
+\deduce[]{
+  \begin{enumerate}
+    \item 1
+    \item 2
+  \end{enumerate}
+}{
+  1
+}
+
+\deduce[]{
+  \begin{enumerate}
+    \item 1
+    \item 2
+  \end{enumerate}
+}{
+  1 \\
+  2
+}
+
+\deduce[]{
+  1
+}{
+  \begin{enumerate}
+    \item 1
+    \item 2
+  \end{enumerate}
+}
+
+\deduce[]{
+  \deduce[]{
+  1 \\[2em]
+  \deduce[]{
+  1 \\
+  2
+}{
+  \begin{enumerate}
+    \item 1
+    \item 2
+  \end{enumerate}
+}
+}{
+  \begin{enumerate}
+    \item 1
+    \item 2
+  \end{enumerate}
+}\\[2em]
+
+2
+}{111}
+
+\deduce[show-leftbrace = true]{
+  \begin{itemize}
+    \item $3 > 2$
+    \item $2 > 1$
+  \end{itemize}
+}{
+  $3 > 1$
+}
+\end{document}
