@@ -34,6 +34,7 @@
 %        \meta{description}
 %      \end{function}
 \RequirePackage{
+  etoolbox,
   ctex,
   xcolor,
   % listings,
@@ -41,10 +42,14 @@
   sourcecodepro,
   mwe,
   % graphicx,
-  hyperref
 }
 
-\setminted{formatcom=\xeCJKVerbAddon}
+\AtEndPreamble
+  {
+    \RequirePackage { hyperref }
+  }
+
+\setminted{formatcom = \xeCJKVerbAddon}
 
 % 设置latexcode和bashcode的背景颜色
 \definecolor{codebg}{rgb}{0.95,0.95,0.95}
@@ -132,14 +137,14 @@
 \def\breakablethinspace{\hskip 0.16667em\relax}
 
 % remark环境
-\NewDocumentEnvironment { remark }{ +b }{
-  \group_begin:
-    \par \large
-    \color{violet}
-    注：
-      #1
-  \group_end:
-}
+% \NewDocumentEnvironment { remark }{ +b }{
+%   \group_begin:
+%     \par \large
+%     \color{violet}
+%     注：
+%       #1
+%   \group_end:
+% }
 \ExplSyntaxOff
 
 

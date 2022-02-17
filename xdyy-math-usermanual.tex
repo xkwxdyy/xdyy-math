@@ -5,29 +5,83 @@
     author            = {夏康玮},
     title             = { \pkg{xdyy-math} 用户手册},
     email             = {kangweixia_xdyy@163.com},
-    date              = {2022-02-16},
-    version           = {0.0.1},
+    date              = {2022-02-18},
+    version           = {0.0.2},
     github-repository = {https://github.com/xkwxdyy/xdyy-math},
     gitee-repository  = {https://gitee.com/xkwxdyy/xdyy-math},
   }
 }
 
 \usepackage{xdyy-math}
-
+% \RenewDocumentCommand { \leftbar } { } { }
+\usepackage{xchoices}
 
 \begin{document}
 \maketitle
 \tableofcontents
 
 
+\section{宏包计划}
+
+本节主要列举想要编写的新功能。
+
+\begin{enumerate}
+  \item 常见的定理环境
+    \begin{xchoices}[label-style = arabic]
+      \item 定义
+      \item 定理
+      \item 例
+      \item 性质
+      \item 命题
+      \item 推论
+      \item 引理
+      \item 公理
+      \item 注
+      \item 反例
+      \item 提示
+      \item 总结
+      \item 分析
+      \item step步骤
+      \item case多情形
+    \end{xchoices}
+  \item 细节补充
+    \begin{itemize}
+      \item 读书笔记中最重要的就是对书中一些地方进行细节的补充和阐述自己的理解
+      \item 特别是一些教材喜欢跳步，就需要自己去尝试补充细节，让证明更加完善
+    \end{itemize}
+    需要涉及到的参数：
+    \begin{xchoices}[label-style = arabic]
+      \item 补充哪本书的内容，版本等细节
+      \item 补充的页码
+      \item 补充的原文是什么
+      \item 补充了什么
+    \end{xchoices}
+  \item 勘误
+    教材难免会有一些勘误的地方，可以汇总起来方便查找和分享。需要涉及到的参数：
+      \begin{enumerate}
+        \item 勘误的是什么书还是文献
+        \item 勘误的版本？或者出版时间之类的补充细节
+        \item 勘误的原文
+        \item 勘误后的修改文
+        \item 为什么是需要勘误的以及自己的理解
+      \end{enumerate}
+\end{enumerate}
+
+
 \section{宏包简介}
 
-自己在记数学笔记的过程中难免会遇到写一些新命令环境，于是想写一个宏包来封装，原本写成了\cmd{cls}文类的形式，但是不够自由，有不小的局限性，于是改成了 \cmd{sty} 宏包的形式。
+自己在记数学笔记的过程中难免会遇到写一些新命令环境，于是想写一个宏包来封装，结合 \cls{xdyy-notes} 文类 \footnote{
+  https://github.com/xkwxdyy/xdyy-math \\
+  https://gitee.com/xkwxdyy/xdyy-math
+}
+一起使用
 
 
 \section{命令介绍}
 
-\subsection{推导命令\tn{deduce}}
+
+\subsection{推导命令 \tn{deduce} }
+
 \begin{function}[added = 2022-1-12]{\deduce}
   \begin{syntax}
     \tn{deduce} \oarg{\kvopt{key}{val}} \marg{left content} \marg{right content}
@@ -49,7 +103,7 @@
   \end{hexample}
 \end{function}
 
-\tn{deduce}命令的键值有：
+\tn{deduce} 命令的键值有：
 
 \begin{function}[added = 2022-01-12]{arrow}
   \begin{syntax}
@@ -63,7 +117,7 @@
     |leftbox-align| = \meta{left, center, right} \init{right}
     |rightbox-align| = \meta{left, center, right} \init{left}
   \end{syntax}
-  分别对应左边和右边内容的对齐方式，如果使用了 \env{enumerate} 或 \env{itemize} 等环境则不起作用，只对纯文本并且使用\textbackslash \textbackslash 换行产生作用（如果只有一行的话用对齐也没啥太明显的效果hhh）。
+  分别对应左边和右边内容的对齐方式，如果使用了 \env{enumerate} 或 \env{itemize} 等环境则不起作用，只对纯文本并且使用 \textbackslash \textbackslash 换行产生作用（如果只有一行的话用对齐也没啥太明显的效果hhh）。
 \end{function}
 
 \begin{function}[added = 2022-01-12]{show-leftbrace, show-rightbrace}
