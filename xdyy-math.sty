@@ -1,8 +1,8 @@
 \NeedsTeXFormat{LaTeX2e}[2017/04/15]
 \RequirePackage{expl3}
 \RequirePackage{xparse}
-\ProvidesExplPackage {xdyy-math} {2022-02-16} {v0.0.1} 
-  {A LaTeX package for some math needs.}
+\ProvidesPackage{xdyy-math}
+  [2022/02/16 v0.0.1 A LaTeX package for some math needs.]
 
 
 % 加载宏包
@@ -20,7 +20,7 @@
 
 %%%%% 自定义命令begin %%%%%
 % 思路推导命令\deduce[<key-value>]{<left>}{<right>}
-
+\ExplSyntaxOn
 % leftbrace到arrow的距离
 \dim_new:N \l__deduce_leftbrace_to_arrow_dim
 % arrow与rightbrace的距离
