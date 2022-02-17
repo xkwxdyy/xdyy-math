@@ -2,23 +2,159 @@
 \RequirePackage{expl3}
 \RequirePackage{xparse}
 \ProvidesPackage{xdyy-math}
-  [2022/02/16 v0.0.1 A LaTeX package for some math needs.]
+  [2022/02/18 v0.0.2 A LaTeX package for some math needs.]
 
 
 % 加载宏包
 \RequirePackage{tikz}               % 绘图
 \RequirePackage{varwidth}           % 最小宽度型的minipage
-\RequirePackage{mathtools, amssymb, extarrows}
+\RequirePackage{extarrows}          % 箭头
+\RequirePackage{amsthm, thmtools}   % 定义定理环境
+\RequirePackage[most]{tcolorbox}    % 彩框
+
 
 % 加载tikz的库
 \usetikzlibrary{calc}               % 相对位置
-\usetikzlibrary{decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}                 % 装饰
+\usetikzlibrary{
+  decorations.pathmorphing,
+  decorations.pathreplacing, 
+  decorations.shapes
+}
 \usetikzlibrary{arrows.meta}        % 箭头
 \usetikzlibrary{positioning}        % 相对方位
 
 
+% 定义定理环境
 
-%%%%% 自定义命令begin %%%%%
+\ExplSyntaxOn
+\cs_new:Npn \__xdyymath_declare_theorem_with_counter:n #1
+  {
+    \declaretheorem
+      [
+        name =  \clist_item:nn {#1} {1} ,
+        refname = \clist_item:nn {#1} {2} ,
+        within = \clist_item:nn {#1} {3} ,
+      ]
+      { \clist_item:nn {#1} {4} }
+  }
+\cs_new:Npn \__xdyymath_declare_theorem_without_counter:n #1
+  {
+    \declaretheorem
+      [
+        name =  \clist_item:nn {#1} {1} ,
+        refname = \clist_item:nn {#1} {2},
+        numbered = no
+      ]
+      { \clist_item:nn {#1} {3} }
+  }
+\clist_map_function:nN
+  {
+    { 定义, 定义, section, definition },
+    { 定理, 定理, section, theorem },
+    { 例, 例, section, example },
+    { 性质, 性质, section, property },
+    { 命题, 命题, section, proposition },
+    { 推论, 推论, section, corollary },
+    { 引理, 引理, section, lemma },
+    { 公理, 公理, section, axiom },
+    { 反例, 反例, section, anti-example }
+  }\__xdyymath_declare_theorem_with_counter:n
+\clist_map_function:nN
+  {
+    { 注, 注, remark },
+    { 提示, 提示, hint },
+    { 总结, 总结, summary },
+    { 分析, 分析, analysis }
+  }\__xdyymath_declare_theorem_without_counter:n
+\ExplSyntaxOff
+
+
+% 多种方法: method环境
+\newlist{method}{enumerate}{1}
+\setlist[method, 1]
+  {
+    label = {\bfseries Method \Roman*.},
+    labelindent = -3em,
+    labelwidth  = 1cm,
+    labelsep*   = 0.5em,
+    leftmargin  =!
+  }
+% 分类讨论: case环境
+\newlist{case}{enumerate}{2}
+\setlist[case, 1]
+  {
+    label = {\bfseries Case \arabic*.},
+    % labelindent=-3em ,labelwidth=1.3cm, labelsep*=1em, leftmargin=20pt
+    labelindent = !,
+    labelwidth  = 1.3cm,
+    labelsep*   = 0.5em,
+    leftmargin  = 1.7cm
+    % labelindent=\parindent, leftmargin=0pt, widest=0, itemindent=*
+  }
+\setlist[case, 2]
+  {
+    label = {\bfseries Subcase \arabic{casei}.\arabic*.},
+    % labelindent=-1em ,labelwidth=1.3cm, labelsep*=1em, leftmargin =20pt
+    labelindent = -0.5em,
+    labelwidth  = 1.3cm,
+    labelsep*   = 0.5em,
+    leftmargin  = 0cm
+  }
+% 分步: step环境
+\newlist{step}{enumerate}{2}
+\setlist[step, 1]
+  {
+    label = {\bfseries Step \arabic*.},
+    labelindent = !,
+    labelwidth  = 1.3cm,
+    labelsep*   = 0.5em,
+    leftmargin  = 1.7cm
+    % labelindent=\parindent, leftmargin = 0pt, widest = 0, itemindent = *
+  }
+\setlist[step, 2]
+  {
+    label       =  {\bfseries Substep \arabic{stepi}.\arabic*.},
+    labelindent = -0.5em,
+    labelwidth  = 1.3cm,
+    labelsep*   = 0.5em, 
+    leftmargin  = 0cm
+  }
+% \declaretheorem[name = 注,refname = {注},style=remark,shaded={rulecolor=Lavender,rulewidth=1pt,bgcolor={rgb}{1,1,1}}]{remark}
+% \NewDocumentEnvironment{remark}{+b}{%
+%     \par\makebox[0pt][r]{%
+%         \color{red!90}\textdbend \,\, %
+%         \textbf{\large \textcolor{red}{注:}}}
+%     #1
+% }{\par}
+% \tcolorboxenvironment{remark}{
+%         enhanced jigsaw, parbox=false,
+%         breakable,boxrule=0pt,
+%         northeastsouthwest,allcolors=yellow!20!red,allrules=2pt,colback=pink!10,left=2mm,bottom=6mm,right=2mm,
+% }
+% \tcolorboxenvironment{definition}{
+%         enhanced jigsaw, 
+%         breakable,boxrule=0pt,
+%         northeastsouthwest,allcolors=blue!70,allrules=2pt,colback=blue!10,left=6mm,bottom=7mm,right=6mm,parbox=false
+% }
+% \declaretheorem[name = 例,refname = {例}]{example}
+% \declaretheorem[thmbox={style=S,bodystyle={\normalfont},headstyle=\bfseries\kaishu 分析}]{analysis}
+% \declaretheorem[name = 提示,style=remark,numbered=no,shaded={rulecolor=teal,rulewidth=1pt,bgcolor={rgb}{1,1,1}}]{hint}
+% \declaretheorem[name = 证明]{proof}
+% 下面是amsthm对proof环境的定义，由于上面的“分析”环境的定义会造成proof环境的bug，就再次重定义这个proof环境
+% \makeatletter
+% \renewenvironment{proof}[1][\proofname]{\par
+% \pushQED{\qed}%
+% \normalfont \topsep6\p@\@plus6\p@\relax
+% \trivlist
+% \item\relax
+% {\itshape
+% #1\@addpunct{.}}\hspace\labelsep\ignorespaces
+% }{%
+% \popQED\endtrivlist\@endpefalse
+% }
+% \makeatother
+
+
 % 思路推导命令\deduce[<key-value>]{<left>}{<right>}
 \ExplSyntaxOn
 % leftbrace到arrow的距离
@@ -166,7 +302,7 @@
     \group_end:
   }
 \ExplSyntaxOff
-%%%%%  自定义命令end  %%%%%
+
 
 
 
@@ -817,75 +953,4 @@
 
 
 
-%多种方法 method环境
-% \newlist{method}{enumerate}{1}
-% \setlist[method, 1]{%
-%     label           =   {\bfseries Method \Roman*.},
-%     labelindent=-3em ,labelwidth=1cm, labelsep*=0.5em, leftmargin =!
-% }
-% %%分类讨论 case环境
-% \newlist{case}{enumerate}{2}
-% \setlist[case, 1]{%
-%     label           =   {\bfseries Case \arabic*.},
-%     % labelindent=-3em ,labelwidth=1.3cm, labelsep*=1em, leftmargin=20pt
-%     labelindent=! ,labelwidth=1.3cm, labelsep*=0.5em, leftmargin =1.7cm
-%     % labelindent=\parindent, leftmargin=0pt, widest=0, itemindent=*
-% }
-% \setlist[case, 2]{%
-%     label           =   {\bfseries Subcase \arabic{casei}.\arabic*.},
-%     % labelindent=-1em ,labelwidth=1.3cm, labelsep*=1em, leftmargin =20pt
-%     labelindent=-0.5em ,labelwidth=1.3cm, labelsep*=0.5em, leftmargin =0cm
-% }
-% %%分步环境 step
-% \newlist{step}{enumerate}{2}
-% \setlist[step, 1]{%
-%     label           =   {\bfseries Step \arabic*.},
-%     labelindent=! ,labelwidth=1.3cm, labelsep*=0.5em, leftmargin =1.7cm
-%     % labelindent=\parindent, leftmargin=0pt, widest=0, itemindent=*
-% }
-% \setlist[step, 2]{%
-%     label           =   {\bfseries Substep \arabic{stepi}.\arabic*.},
-%     labelindent=-0.5em ,labelwidth=1.3cm, labelsep*=0.5em, leftmargin =0cm
-% }
 
-% %%%%自定义定理类环境
-% \declaretheorem[name=定义,refname={定义},within=section]{definition}
-% \declaretheorem[name=定理,refname={定理},within=section]{theorem}
-% \declaretheorem[name=引理,refname={引理}]{lemma}
-% \declaretheorem[name=推论,refname={推论},sibling=theorem]{corollary}
-% \declaretheorem[name=命题,refname={命题},sibling=theorem]{proposition}
-% \declaretheorem[name=性质,refname={性质},sibling=theorem]{property}
-% % \declaretheorem[name=注,refname={注},style=remark,shaded={rulecolor=Lavender,rulewidth=1pt,bgcolor={rgb}{1,1,1}}]{remark}
-% \NewDocumentEnvironment{remark}{+b}{%
-%     \par\makebox[0pt][r]{%
-%         \color{red!90}\textdbend \,\, %
-%         \textbf{\large \textcolor{red}{注:}}}
-%     #1
-% }{\par}
-% \tcolorboxenvironment{remark}{
-%         enhanced jigsaw, parbox=false,
-%         breakable,boxrule=0pt,
-%         northeastsouthwest,allcolors=yellow!20!red,allrules=2pt,colback=pink!10,left=2mm,bottom=6mm,right=2mm,
-% }
-% % \tcolorboxenvironment{definition}{
-% %         enhanced jigsaw, 
-% %         breakable,boxrule=0pt,
-% %         northeastsouthwest,allcolors=blue!70,allrules=2pt,colback=blue!10,left=6mm,bottom=7mm,right=6mm,parbox=false
-% % }
-% \declaretheorem[name=例,refname={例}]{example}
-% \declaretheorem[thmbox={style=S,bodystyle={\normalfont},headstyle=\bfseries\kaishu 分析}]{analysis}
-% \declaretheorem[name=提示,style=remark,numbered=no,shaded={rulecolor=teal,rulewidth=1pt,bgcolor={rgb}{1,1,1}}]{hint}
-% % \declaretheorem[name=证明]{proof}
-% %下面是amsthm对proof环境的定义，由于上面的“分析”环境的定义会造成proof环境的bug，就再次重定义这个proof环境
-% % \makeatletter
-% \renewenvironment{proof}[1][\proofname]{\par
-% \pushQED{\qed}%
-% \normalfont \topsep6\p@\@plus6\p@\relax
-% \trivlist
-% \item\relax
-% {\itshape
-% #1\@addpunct{.}}\hspace\labelsep\ignorespaces
-% }{%
-% \popQED\endtrivlist\@endpefalse
-% }
-% % \makeatother
