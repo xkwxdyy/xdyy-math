@@ -16,6 +16,7 @@
 % \RenewDocumentCommand { \leftbar } { } { }
 \usepackage{xchoices}
 
+
 \begin{document}
 \maketitle
 \tableofcontents
@@ -26,24 +27,6 @@
 本节主要列举想要编写的新功能。
 
 \begin{enumerate}
-  \item 常见的定理环境
-    \begin{xchoices}[label-style = arabic]
-      \item 定义
-      \item 定理
-      \item 例
-      \item 性质
-      \item 命题
-      \item 推论
-      \item 引理
-      \item 公理
-      \item 注
-      \item 反例
-      \item 提示
-      \item 总结
-      \item 分析
-      \item step步骤
-      \item case多情形
-    \end{xchoices}
   \item 细节补充
     \begin{itemize}
       \item 读书笔记中最重要的就是对书中一些地方进行细节的补充和阐述自己的理解
@@ -143,4 +126,141 @@
   顾名思义，右边的括号到右边内容盒子的水平距离。（因为 \env{enumerate} 或 \env{itemize} 等环境的左侧会有一段小距离，所以设置此键值控制，因为这些环境的右边并没有额外距离，所以没有设置左边括号到左边内容盒子的（如果有需求的话后续再设置））。
 \end{function}
 
+
+
+\section{环境介绍}
+
+
+\subsection{定理类环境}
+
+常见的定理环境均定义：
+常见的定理环境
+  \begin{xchoices}[label-style = arabic]
+    \item 定义
+    \item 定理
+    \item 例
+    \item 性质
+    \item 命题
+    \item 推论
+    \item 引理
+    \item 公理
+    \item 注
+    \item 反例
+    \item 提示
+    \item 总结
+    \item 分析
+    \item method方法（list型环境）
+    \item step步骤（list型环境）
+    \item case多情形（list型环境）
+  \end{xchoices}
+
+\begin{vexample}
+    \begin{definition}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{definition}
+    
+    \begin{theorem}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{theorem}
+    
+    \begin{example}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{example}
+    
+    \begin{property}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{property}
+    
+    \begin{proposition}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{proposition}
+\end{vexample}
+
+\begin{vexample}
+
+    \begin{corollary}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{corollary}
+    
+    \begin{lemma}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{lemma}
+    
+    \begin{axiom}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{axiom}
+    
+    \begin{antiexample}[Euclid定理]
+      这是一段文字 $E = m c^2$
+    \end{antiexample}
+    
+    \begin{remark}
+      这是一段文字 $E = m c^2$
+    \end{remark}
+    
+    \begin{hint}
+      这是一段文字 $E = m c^2$
+    \end{hint}
+    
+    \begin{summary}
+      这是一段文字 $E = m c^2$
+    \end{summary}
+\end{vexample}
+
+
+\begin{vexample}
+    \begin{analysis}
+      这是一段文字 $E = m c^2$
+    \end{analysis}
+    
+    \begin{proof}[Euclid定理的证明]
+      \begin{method}
+        \item 方法一
+        \item 方法二
+      \end{method}
+    \end{proof}
+    
+    \begin{proof}
+      文字
+      \begin{method}
+        \item 方法一
+        \item 方法二
+      \end{method}
+    \end{proof}
+\end{vexample}
+
+
+\begin{vexample}
+    \begin{proof}
+      \begin{case}
+        \item 情形1
+        \item 情形2
+      \end{case}
+    \end{proof}
+    
+    \begin{proof}
+      文字
+      \begin{case}
+        \item 情形1
+        \item 情形2
+      \end{case}
+    \end{proof}
+\end{vexample}
+
+\begin{vexample}
+    \begin{proof}
+      \begin{step}
+        \item 步骤1
+        \item 步骤2
+      \end{step}
+    \end{proof}
+    
+    \begin{proof}
+      文字
+      \begin{step}
+        \item 步骤1
+        \item 步骤2
+      \end{step}
+    \end{proof}
+\end{vexample}
 \end{document}
