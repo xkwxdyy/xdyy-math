@@ -9,9 +9,14 @@
 \RequirePackage{tikz}               % 绘图
 \RequirePackage{varwidth}           % 最小宽度型的minipage
 \RequirePackage{extarrows}          % 箭头
+\RequirePackage{enumitem}           % 定制list环境
 \RequirePackage{amsthm, thmtools}   % 定义定理环境
+\RequirePackage{xcolor}
+\PassOptionsToPackage{dvipsnames, svgnames, x11names}{xcolor}
 \RequirePackage[most]{tcolorbox}    % 彩框
-
+% \let\dbend\relax
+\RequirePackage{manfnt}             % 提供“危险”符号
+% \let\dbend\relax
 
 % 加载tikz的库
 \usetikzlibrary{calc}               % 相对位置
@@ -27,6 +32,20 @@
 % 定义定理环境
 
 \ExplSyntaxOn
+\declaretheoremstyle
+  [
+    spaceabove = 6pt,
+    spacebelow = 6pt,
+    headfont = \normalfont\bfseries,
+    notefont = \mdseries, 
+    notebraces = {(}{)},
+    bodyfont = \ttfamily,
+    % bodyfont = \itshape,
+    headpunct = {},
+    postheadspace = 1em,
+  ]
+  {withoutcounterstyle}
+
 \cs_new:Npn \__xdyymath_declare_theorem_with_counter:n #1
   {
     \declaretheorem
@@ -43,7 +62,9 @@
       [
         name =  \clist_item:nn {#1} {1} ,
         refname = \clist_item:nn {#1} {2},
-        numbered = no
+        numbered = no,
+        % headpunct = {},
+        style = withoutcounterstyle
       ]
       { \clist_item:nn {#1} {3} }
   }
@@ -57,14 +78,24 @@
     { 推论, 推论, section, corollary },
     { 引理, 引理, section, lemma },
     { 公理, 公理, section, axiom },
-    { 反例, 反例, section, anti-example }
+    { 反例, 反例, section, antiexample },
+    { 猜想, 猜想, section, conjecture },
+    { 问题, 问题, section, question },
   }\__xdyymath_declare_theorem_with_counter:n
 \clist_map_function:nN
   {
-    { 注, 注, remark },
-    { 提示, 提示, hint },
-    { 总结, 总结, summary },
-    { 分析, 分析, analysis }
+    {
+      { \color{ red } \textdbend 注 },
+      注,
+      remark 
+    },
+    { { \color{ teal } \mantriangleright 提示 }, 提示, hint },
+    { { \color{ red!70!white } \manstar 总结  }, 总结, summary },
+    {
+      { \color{ -red!75!green!50 }  \manerrarrow 分析 },
+      分析,
+      analysis 
+    }
   }\__xdyymath_declare_theorem_without_counter:n
 \ExplSyntaxOff
 
@@ -74,10 +105,10 @@
 \setlist[method, 1]
   {
     label = {\bfseries Method \Roman*.},
-    labelindent = -3em,
-    labelwidth  = 1cm,
+    labelindent = !,
+    labelwidth  = 1.3cm,
     labelsep*   = 0.5em,
-    leftmargin  =!
+    leftmargin  = 2.2cm
   }
 % 分类讨论: case环境
 \newlist{case}{enumerate}{2}
@@ -119,18 +150,20 @@
     labelsep*   = 0.5em, 
     leftmargin  = 0cm
   }
-% \declaretheorem[name = 注,refname = {注},style=remark,shaded={rulecolor=Lavender,rulewidth=1pt,bgcolor={rgb}{1,1,1}}]{remark}
-% \NewDocumentEnvironment{remark}{+b}{%
-%     \par\makebox[0pt][r]{%
-%         \color{red!90}\textdbend \,\, %
-%         \textbf{\large \textcolor{red}{注:}}}
-%     #1
-% }{\par}
-% \tcolorboxenvironment{remark}{
-%         enhanced jigsaw, parbox=false,
-%         breakable,boxrule=0pt,
-%         northeastsouthwest,allcolors=yellow!20!red,allrules=2pt,colback=pink!10,left=2mm,bottom=6mm,right=2mm,
-% }
+
+\tcolorboxenvironment{remark}
+  {
+    enhanced jigsaw, 
+    parbox=false,
+    breakable,boxrule=0pt,
+    % northeastsouthwest,
+    % allcolors=yellow!20!red,
+    % allrules=2pt,
+    colback=pink!10,
+    left=2mm,
+    bottom=6mm,
+    right=2mm,
+  }
 % \tcolorboxenvironment{definition}{
 %         enhanced jigsaw, 
 %         breakable,boxrule=0pt,
@@ -317,7 +350,7 @@
 %彩框选项
 % \PassOptionsToPackage{most}{tcolorbox}
 %颜色
-% \PassOptionsToPackage{dvipsnames}{xcolor}%颜色
+% %颜色
 
 
 %载入所需宏包

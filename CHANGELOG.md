@@ -1,4 +1,8 @@
 # 更新日志
+## [v0.0.2] - 2022-2-19
+### Added
+- 增加猜想`conjecture`环境和问题`question`环境
+
 ## [v0.0.2] - 2022-2-18
 ### Added
 - 增加定理类环境以及`case`、`step`、`method`环境
