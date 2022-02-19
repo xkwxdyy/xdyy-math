@@ -2,6 +2,8 @@
 ## [v0.0.2] - 2022-2-19
 ### Added
 - 增加猜想`conjecture`环境和问题`question`环境
+### Fixed
+- 修复`dbend`冲突问题
 
 ## [v0.0.2] - 2022-2-18
 ### Added
