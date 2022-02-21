@@ -352,7 +352,10 @@
 
 \NewDocumentCommand { \overlay } { O{} }
   {
+    % “吃掉前面的空格”
+    \unskip
     \group_begin:
+      \c_space_tl
       \keys_set:nn { xdyy-math / overlay } {#1}
       \begin{tikzpicture}
         [
@@ -392,7 +395,10 @@
             \group_end:
           };
       \end{tikzpicture}
+      \c_space_tl
     \group_end:
+    % “吃掉后面的空格”
+    \ignorespaces
   }
 
 
