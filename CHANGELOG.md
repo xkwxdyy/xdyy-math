@@ -1,7 +1,15 @@
 # 更新日志
+## [v0.0.3] - 2022-2-21
+### Added
+- 增加`overlay`命令
+
+
 ## [v0.0.2] - 2022-2-19
 ### Added
 - 增加猜想`conjecture`环境和问题`question`环境
+- 增加引用`quotient`环境
+
+
 ### Fixed
 - 修复`dbend`冲突问题
 

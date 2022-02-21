@@ -5,8 +5,8 @@
     author            = {夏康玮},
     title             = { \pkg{xdyy-math} 用户手册},
     email             = {kangweixia_xdyy@163.com},
-    date              = {2022-02-18},
-    version           = {0.0.2},
+    date              = {2022-02-21},
+    version           = {0.0.3},
     github-repository = {https://github.com/xkwxdyy/xdyy-math},
     gitee-repository  = {https://gitee.com/xkwxdyy/xdyy-math},
   }
@@ -21,34 +21,6 @@
 \tableofcontents
 
 
-\section{宏包计划}
-
-本节主要列举想要编写的新功能。
-
-\begin{enumerate}
-  \item 细节补充
-    \begin{itemize}
-      \item 读书笔记中最重要的就是对书中一些地方进行细节的补充和阐述自己的理解
-      \item 特别是一些教材喜欢跳步，就需要自己去尝试补充细节，让证明更加完善
-    \end{itemize}
-    需要涉及到的参数：
-    \begin{xchoices}[label-style = arabic]
-      \item 补充哪本书的内容，版本等细节
-      \item 补充的页码
-      \item 补充的原文是什么
-      \item 补充了什么
-    \end{xchoices}
-  \item 勘误
-    教材难免会有一些勘误的地方，可以汇总起来方便查找和分享。需要涉及到的参数：
-      \begin{enumerate}
-        \item 勘误的是什么书还是文献
-        \item 勘误的版本？或者出版时间之类的补充细节
-        \item 勘误的原文
-        \item 勘误后的修改文
-        \item 为什么是需要勘误的以及自己的理解
-      \end{enumerate}
-\end{enumerate}
-
 
 \section{宏包简介}
 
@@ -62,11 +34,12 @@
 \section{命令介绍}
 
 
+
 \subsection{推导命令 \tn{deduce} }
 
 \begin{function}[added = 2022-1-12]{\deduce}
   \begin{syntax}
-    \tn{deduce} \oarg{\kvopt{key}{val}} \marg{left content} \marg{right content}
+    |\deduce| \oarg{\kvopt{key}{val}} \marg{left content} \marg{right content}
   \end{syntax}
   思路推导命令，内容部分可以使用 \env{enumerate}、\env{itemize} 等环境
   \begin{hexample}
@@ -124,6 +97,31 @@
   \end{syntax}
   顾名思义，右边的括号到右边内容盒子的水平距离。（因为 \env{enumerate} 或 \env{itemize} 等环境的左侧会有一段小距离，所以设置此键值控制，因为这些环境的右边并没有额外距离，所以没有设置左边括号到左边内容盒子的（如果有需求的话后续再设置））。
 \end{function}
+
+
+
+\subsection{叠放符号命令 \tn{overlay}}
+
+\begin{function}[added = 2022-2-21]{\overlay}
+  \begin{syntax}
+    |\overlay| \oarg{\kvopt{key}{val}}
+  \end{syntax}
+  思路推导命令，默认为双箭头加一个问号（即“是否等价”）。 提供一系列键值进行控制
+  \begin{hexample}
+      \overlay
+  \end{hexample}
+\end{function}
+
+
+下面列举 \tn{overlay} 所有键值，其中*表示可以为below和above，如“\cmd{*-label}”表示有键 \cmd{below-label} 和 \cmd{above-label}
+\begin{enumerate}
+  \item \cmd{*-label}：内容。below的默认为“$\Longleftrightarrow$”，above的默认为“?”
+  \item \cmd{*-color}：颜色。默认为black
+  \item \cmd{*-vsep}：垂直移动。默认为0
+  \item \cmd{*-hsep}：水平移动。默认为0
+  \item \cmd{*-anchor}：锚点。below的默认为base，above的默认为south
+  \item \cmd{*-scale}：缩放系数。默认为1
+\end{enumerate}
 
 
 
