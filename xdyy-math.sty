@@ -2,7 +2,7 @@
 \RequirePackage{expl3}
 \RequirePackage{xparse}
 \ProvidesPackage{xdyy-math}
-  [2022/02/21 v0.0.3 A LaTeX package for some math needs.]
+  [2022/02/24 v0.0.4 A LaTeX package for some math needs.]
 
 
 % 加载宏包
@@ -10,11 +10,14 @@
 \RequirePackage{varwidth}           % 最小宽度型的minipage
 \RequirePackage{extarrows}          % 箭头
 \RequirePackage{enumitem}           % 定制list环境
-\RequirePackage{amsthm, thmtools}   % 定义定理环境
+\RequirePackage{amsthm, amssymb, thmtools}   % 定义定理环境
 \RequirePackage{xcolor}
 \PassOptionsToPackage{dvipsnames, svgnames, x11names}{xcolor}
 \RequirePackage[most]{tcolorbox}    % 彩框
 \RequirePackage{manfnt}             % 提供“危险”符号
+% \AtEndPreamble
+%   { \RequirePackage { unicode-math } }
+
 
 % 加载tikz的库
 \usetikzlibrary{calc}               % 相对位置
@@ -435,7 +438,14 @@
     \group_end:
   }
 
+% \text 命令，让两边增加一点间距
 
+\cs_set_eq:NN \__xdyymath_text:n \text
+
+\RenewDocumentCommand { \text } { m }
+  {
+    \__xdyymath_text:n { \, #1 \, }
+  }
 
 % 简化命令
 
@@ -445,36 +455,112 @@
     \left\{ \,\, #1 :  #2 \, \right\} 
   }
 
-% \newcommand{\st}{
-%   \if_mode_math: \text{\,\,s.t.\,\,}
-%   \else:
-%   \,s.t.\,\,
-%   \fi
-% }
+% 使得 such that : s.t.
+\NewDocumentCommand { \st } { }
+  {
+    \if_mode_math: 
+      \text { \,\, s.t. \,\, }
+    \else:
+      \, s.t. \,\,
+    \fi
+  }
 
-% \renewcommand{\ae}{
-%   \if_mode_math: \text{\,\,a.e.\,\,}
-%   \else:
-%   \,a.e.\,\,
-%   \fi
-% }
+% 几乎处处 almost everywhere: a.e.
+\DeclareDocumentCommand { \ae } { }
+  {
+    \if_mode_math: 
+      \text { \,\, a.e. \,\, }
+    \else:
+      \, a.e. \,\,
+    \fi
+  }
 
-% \newcommand{\ie}{
-%   \if_mode_math: \text{\,\,i.e.\,\,}
-%   \else:
-%   \,i.e.\,\,
-%   \fi
-% }
+% 也就是说 i.e.
+\NewDocumentCommand { \ie } { }
+  {
+    \if_mode_math: 
+      \text { \,\, i.e. \,\, }
+    \else:
+      \, i.e. \,\,
+    \fi
+  }
 
-% \newcommand{\mathtext}[1]{
-%     \text{\,#1\,}
-% }
+
+\cs_new:Npn \__xdyymath_newcommand:Nn #1#2 { \newcommand {#1} {#2} }
+\cs_generate_variant:Nn \__xdyymath_newcommand:Nn { c }
+\IfPackageLoadedTF { unicode-math }
+  {
+    \cs_set_eq:NN \__xdyymath_mathbb:n \symbb
+    \cs_set_eq:NN \__xdyymath_mathcal:n \symcal
+    \cs_set_eq:NN \__xdyymath_mathscr:n \symscr
+  }
+  {
+    \RequirePackage { unicode-math } 
+    % \cs_set_eq:NN \__xdyymath_mathbb:n \mathbb
+    % \cs_set_eq:NN \__xdyymath_mathcal:n \mathcal
+    % \cs_set_eq:NN \__xdyymath_mathscr:n \mathscr
+    \cs_set_eq:NN \__xdyymath_mathbb:n \symbb
+    \cs_set_eq:NN \__xdyymath_mathcal:n \symcal
+    \cs_set_eq:NN \__xdyymath_mathscr:n \symscr
+  }
+
+\cs_set:Npn \__xdyymath_math_symbol_new_mathbb:n #1
+  {
+    \__xdyymath_newcommand:cn {#1}
+      {
+        \ensuremath
+          { \__xdyymath_mathbb:n {#1} }
+      }
+  }
+\cs_set:Npn \__xdyymath_math_symbol_new_mathcal:n #1
+  {
+    \__xdyymath_newcommand:cn { cal #1 }
+      {
+        \ensuremath
+          { \__xdyymath_mathcal:n {#1} }
+      }
+  }
+\cs_set:Npn \__xdyymath_math_symbol_new_mathsrc:n #1
+  {
+    \__xdyymath_newcommand:cn { scr #1 }
+      {
+        \ensuremath
+          { \__xdyymath_mathscr:n {#1} }
+      }
+  }
+
+% 定义mathbb类符号
+\clist_map_function:nN
+  {
+    A, B, C, D, E, F, G, I, J,
+    K, M, N, Q, R, T,
+    U, V, W, X, Y, Z
+  }
+  \__xdyymath_math_symbol_new_mathbb:n
+
+% 定义mathcal类符号
+\clist_map_function:nN
+  {
+    A, B, C, D, E, F, G, H, I, J,
+    K, L, M, N, O, P, Q, R, S, T,
+    U, V, W, X, Y, Z
+  }
+  \__xdyymath_math_symbol_new_mathcal:n
+
+% 定义mathscr类符号
+\clist_map_function:nN
+  {
+    A, B, C, D, E, F, G, H, I, J,
+    K, L, M, N, O, P, Q, R, S, T,
+    U, V, W, X, Y, Z
+  }
+  \__xdyymath_math_symbol_new_mathsrc:n
 
 % \newcommand{\pie}{^{\prime}} %pie=撇
 % \newcommand{\zj}{\ensuremath{\subset}} %zj=子集
 % \newcommand{\so}{\ensuremath{\Rightarrow}} %so=所以，因此，推出
 % \newcommand{\So}{\ensuremath{\Longrightarrow}} %so=所以，因此，推出
-% \newcommand{\equi}{\ensuremath{\Longleftrightarrow}}%equi=equivalent等价
+% \newcommand{\equi}{\ensuremath{\Longleftrightarrow}}
 % \newcommand{\kj}{\ensuremath{\varnothing}} %kj=空集
 % \newcommand{\dx}{\dd x}
 % \newcommand{\dy}{\dd y}
@@ -498,10 +584,7 @@
 % \newcommand\Rn{\mathbb{R}^n}
 % \newcommand{\lrangle}[2]{\langle#1,#2\rangle}
 % \newcommand{\generatedgroup}[1]{\langle#1\rangle} % generated group by a set, used in algebra
-% \newcommand{\sufficient}{($\Leftarrow$)} % sufficient condition
-% \newcommand{\necessary}{($\Rightarrow$)} % necessary condition
 % \newcommand{\closure}[1]{\bar{#1}} % the closure of a set
-% \newcommand{\almosteverywhere}{\;\mathrm{a.e.}}
 % \newcommand{\diag}{\mathrm{diag}}
 % \newcommand{\innerp}[2]{\left\langle#1,#2\right\rangle}
 % \newcommand{\conjugate}[1]{\overline{#1}}
