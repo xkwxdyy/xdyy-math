@@ -34,6 +34,7 @@
 \tcbuselibrary{hooks}
 
 
+
 % 定义定理环境
 
 \ExplSyntaxOn
@@ -86,6 +87,7 @@
     { 反例, 反例, section, antiexample },
     { 猜想, 猜想, section, conjecture },
     { 问题, 问题, section, question },
+    { 断言, 断言, section, claim },
   }\__xdyymath_declare_theorem_with_counter:n
 \clist_map_function:nN
   {
@@ -486,6 +488,89 @@
   }
 
 
+
+% 定义符号 := 与=: 与 =上有个delta
+\NewDocumentCommand { \coloneq } { } { := }
+\NewDocumentCommand { \eqcolon } { } { := }
+\NewDocumentCommand { \deltaeq } { } { \xlongequal{\Delta} }
+
+% 一些箭头
+\NewDocumentCommand { \so } { } { \ensuremath{\Rightarrow} }
+\NewDocumentCommand { \So } { } { \ensuremath{\Longrightarrow} }
+\NewDocumentCommand { \equivalent } { } { \ensuremath{\Longleftrightarrow} }
+
+% 一些集合
+\RenewDocumentCommand { \emptyset } { } { \ensuremath{\varnothing} }
+\NewDocumentCommand { \Rn } { } { \ensuremath{\symbb{R}^n} }
+\NewDocumentCommand { \Cn } { } { \ensuremath{\symbb{C}^n} }
+% \NewDocumentCommand {  } { } {  }
+
+
+
+
+% \newcommand{\pie}{^{\prime}} %pie=撇
+% \newcommand{\dx}{\dd x}
+% \newcommand{\dy}{\dd y}
+% \newcommand{\dt}{\dd t}
+
+% \newcommand{\lrangle}[2]{\langle#1,#2\rangle}
+% \newcommand{\generatedgroup}[1]{\langle#1\rangle} % generated group by a set, used in algebra
+% \newcommand{\closure}[1]{\bar{#1}} % the closure of a set
+% \newcommand{\diag}{\mathrm{diag}}
+% \newcommand{\innerp}[2]{\left\langle#1,#2\right\rangle}
+% \newcommand{\conjugate}[1]{\overline{#1}}
+% \newcommand{\cont}[1]{\mathrm{Cont}(#1)}
+% \newcommand{\id}{\mathrm{id}}
+% % \newcommand{\abs}[1]{\ensuremath{\left| #1 \right| }}
+% % \newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
+% \newcommand{\tabs}[1]{\ensuremath{\lvert #1\rvert}}
+% \newcommand{\tnorm}[1]{\ensuremath{\lVert #1\rVert}}
+% \newcommand{\weakto}{\ensuremath{\overset{w.}{\longrightarrow}}}
+% \newcommand{\sweakto}{\ensuremath{\overset{\Star{w.}}{\longrightarrow}}}
+% \newcommand{\sgn}{\mathrm{sgn}\,}
+% \newcommand{\sssum}{\ensuremath{{\scriptscriptstyle\sum}}}
+% \newcommand{\Gd}{\ensuremath{\G_{\delta}}}
+% \newcommand{\Star}[1]{#1^{*}}
+% %声明数学operator
+% \DeclareMathOperator{\rad}{rad}
+% \DeclareMathOperator{\diam}{diam}
+% \DeclareMathOperator{\fin}{fin}
+% \DeclareMathOperator{\esssup}{ess\,sup}
+% \DeclareMathOperator{\conv}{Conv}
+% \DeclareMathOperator{\Span}{span} %% 因为\span已经在宏中定义, 这里使用大写的\Span来表示线性张成
+% % \DeclareMathOperator{\cont}{Cont} %% 表示函数的连续点
+% % \DeclareMathOperator{\supp}{supp}
+% % \DeclareMathOperator{\diag}{diag}
+% \DeclareMathOperator{\codim}{codim}
+% \DeclareMathOperator{\convba}{Convba}
+% \DeclareMathOperator{\Image}{Im}
+% \newcommand{\dif}{\mathop{}\!\mathrm{d}}
+% \newcommand{\diff}{\mathop{}\!\mathrm{d}}
+% \newcommand{\du}{\mathop{}\!\mathrm{d}\mu}
+% % \newcommand{\lrangle}[2]{\langle #1, #2 \rangle}
+% \renewcommand{\div}{\operatorname{div}}
+% \newcommand{\e}{\mathrm{e}}
+% \newcommand{\T}{\mathrm{T}}
+% \newcommand{\ii}{\mathrm{i}}
+% % Differential Operator(在多种实现方法之中，个人认为此方法最佳)
+% % \newcommand{\diff}{\mathop{}\!\mathrm{d}}
+% % Declare Math Operator
+% % \DeclareMathOperator{\codim}{codim}
+% % \DeclareMathOperator{\conv}{conv}
+% % \DeclareMathOperator{\diam}{diam} % diameter
+% % \DeclareMathOperator{\rank}{rank}
+% % \DeclareMathOperator{\sgn}{sgn}
+% \DeclareMathOperator{\spt}{spt} % support set
+% \DeclareMathOperator{\supp}{supp} % another support set
+% \DeclareMathOperator{\lcm}{lcm} % least common multiple
+% % \DeclareMathOperator{\Span}{span}
+% % Real and Imaginary part of complex numbers
+% \renewcommand{\Re}{\operatorname{Re}}
+% \renewcommand{\Im}{\operatorname{Im}}
+% % \newommand{\Deltaeq}{\xlongequal{\Delta}}
+
+
+% 定义数学符号
 \cs_new:Npn \__xdyymath_newcommand:Nn #1#2 { \newcommand {#1} {#2} }
 \cs_generate_variant:Nn \__xdyymath_newcommand:Nn { c }
 \IfPackageLoadedTF { unicode-math }
@@ -556,87 +641,8 @@
   }
   \__xdyymath_math_symbol_new_mathsrc:n
 
-% \newcommand{\pie}{^{\prime}} %pie=撇
-% \newcommand{\zj}{\ensuremath{\subset}} %zj=子集
-% \newcommand{\so}{\ensuremath{\Rightarrow}} %so=所以，因此，推出
-% \newcommand{\So}{\ensuremath{\Longrightarrow}} %so=所以，因此，推出
-% \newcommand{\equi}{\ensuremath{\Longleftrightarrow}}
-% \newcommand{\kj}{\ensuremath{\varnothing}} %kj=空集
-% \newcommand{\dx}{\dd x}
-% \newcommand{\dy}{\dd y}
-% \newcommand{\dt}{\dd t}
-% \newcommand{\C}{\ensuremath{\symbb{C}}}
-% \newcommand{\R}{\ensuremath{\symbb{R}}}
-% \newcommand{\Q}{\ensuremath{\symbb{Q}}}
-% \newcommand{\K}{\ensuremath{\symbb{K}}}
-% \newcommand{\Z}{\ensuremath{\symbb{Z}}}
-% \newcommand{\N}{\ensuremath{\symbb{N}}}
-% \newcommand{\cO}{\ensuremath{\symcal{O}}}
-% \newcommand{\cN}{\ensuremath{\symcal{N}}}
-% \newcommand{\cH}{\ensuremath{\symcal{H}}}
-% \newcommand{\cA}{\ensuremath{\symcal{A}}}
-% \newcommand{\cB}{\ensuremath{\symcal{B}}}
-% \newcommand{\cC}{\ensuremath{\symcal{C}}}
-% \newcommand{\cK}{\ensuremath{\symcal{K}}}
-% \newcommand{\cJ}{\ensuremath{\symcal{J}}}
-% \newcommand{\cF}{\ensuremath{\symcal{F}}}
-% \newcommand{\cG}{\ensuremath{\symcal{G}}}
-% \newcommand\Rn{\mathbb{R}^n}
-% \newcommand{\lrangle}[2]{\langle#1,#2\rangle}
-% \newcommand{\generatedgroup}[1]{\langle#1\rangle} % generated group by a set, used in algebra
-% \newcommand{\closure}[1]{\bar{#1}} % the closure of a set
-% \newcommand{\diag}{\mathrm{diag}}
-% \newcommand{\innerp}[2]{\left\langle#1,#2\right\rangle}
-% \newcommand{\conjugate}[1]{\overline{#1}}
-% \newcommand{\cont}[1]{\mathrm{Cont}(#1)}
-% \newcommand{\id}{\mathrm{id}}
-% % \newcommand{\abs}[1]{\ensuremath{\left| #1 \right| }}
-% % \newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
-% \newcommand{\tabs}[1]{\ensuremath{\lvert #1\rvert}}
-% \newcommand{\tnorm}[1]{\ensuremath{\lVert #1\rVert}}
-% \newcommand{\weakto}{\ensuremath{\overset{w.}{\longrightarrow}}}
-% \newcommand{\sweakto}{\ensuremath{\overset{\Star{w.}}{\longrightarrow}}}
-% \newcommand{\sgn}{\mathrm{sgn}\,}
-% \newcommand{\sssum}{\ensuremath{{\scriptscriptstyle\sum}}}
-% \newcommand{\Gd}{\ensuremath{\G_{\delta}}}
-% \newcommand{\Star}[1]{#1^{*}}
-% %声明数学operator
-% \DeclareMathOperator{\rad}{rad}
-% \DeclareMathOperator{\diam}{diam}
-% \DeclareMathOperator{\fin}{fin}
-% \DeclareMathOperator{\esssup}{ess\,sup}
-% \DeclareMathOperator{\conv}{Conv}
-% \DeclareMathOperator{\Span}{span} %% 因为\span已经在宏中定义, 这里使用大写的\Span来表示线性张成
-% % \DeclareMathOperator{\cont}{Cont} %% 表示函数的连续点
-% % \DeclareMathOperator{\supp}{supp}
-% % \DeclareMathOperator{\diag}{diag}
-% \DeclareMathOperator{\codim}{codim}
-% \DeclareMathOperator{\convba}{Convba}
-% \DeclareMathOperator{\Image}{Im}
-% \newcommand{\dif}{\mathop{}\!\mathrm{d}}
-% \newcommand{\diff}{\mathop{}\!\mathrm{d}}
-% \newcommand{\du}{\mathop{}\!\mathrm{d}\mu}
-% % \newcommand{\lrangle}[2]{\langle #1, #2 \rangle}
-% \renewcommand{\div}{\operatorname{div}}
-% \newcommand{\e}{\mathrm{e}}
-% \newcommand{\T}{\mathrm{T}}
-% \newcommand{\ii}{\mathrm{i}}
-% % Differential Operator(在多种实现方法之中，个人认为此方法最佳)
-% % \newcommand{\diff}{\mathop{}\!\mathrm{d}}
-% % Declare Math Operator
-% % \DeclareMathOperator{\codim}{codim}
-% % \DeclareMathOperator{\conv}{conv}
-% % \DeclareMathOperator{\diam}{diam} % diameter
-% % \DeclareMathOperator{\rank}{rank}
-% % \DeclareMathOperator{\sgn}{sgn}
-% \DeclareMathOperator{\spt}{spt} % support set
-% \DeclareMathOperator{\supp}{supp} % another support set
-% \DeclareMathOperator{\lcm}{lcm} % least common multiple
-% % \DeclareMathOperator{\Span}{span}
-% % Real and Imaginary part of complex numbers
-% \renewcommand{\Re}{\operatorname{Re}}
-% \renewcommand{\Im}{\operatorname{Im}}
-% % \newommand{\Deltaeq}{\xlongequal{\Delta}}
 
-
+% 数学字体
+\setmathfont{NewCMMath-Book.otf}[]
+\setmathfont{XITSMath-Regular.otf}[range={"02205}]	% 将空集符号字体设置为 XITS
 \ExplSyntaxOff
