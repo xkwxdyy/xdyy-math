@@ -10,9 +10,8 @@
 \RequirePackage{varwidth}           % 最小宽度型的minipage
 \RequirePackage{extarrows}          % 箭头
 \RequirePackage{enumitem}           % 定制list环境
-\RequirePackage{amsthm, amssymb, thmtools}   % 定义定理环境
+\RequirePackage{amsthm, thmtools}   % 定义定理环境
 \RequirePackage{xcolor}
-\PassOptionsToPackage{dvipsnames, svgnames, x11names}{xcolor}
 \RequirePackage[most]{tcolorbox}    % 彩框
 \RequirePackage{manfnt}             % 提供“危险”符号
 \RequirePackage{fontsetup}
@@ -418,20 +417,28 @@
 % 定义数学符号
 \cs_new:Npn \__xdyymath_newcommand:Nn #1#2 { \newcommand {#1} {#2} }
 \cs_generate_variant:Nn \__xdyymath_newcommand:Nn { c }
-\IfPackageLoadedTF { unicode-math }
+\AtBeginDocument
   {
-    \cs_set_eq:NN \__xdyymath_mathbb:n \symbb
-    \cs_set_eq:NN \__xdyymath_mathcal:n \symcal
-    \cs_set_eq:NN \__xdyymath_mathscr:n \symscr
-  }
-  {
-    \RequirePackage { unicode-math } 
-    % \cs_set_eq:NN \__xdyymath_mathbb:n \mathbb
-    % \cs_set_eq:NN \__xdyymath_mathcal:n \mathcal
-    % \cs_set_eq:NN \__xdyymath_mathscr:n \mathscr
-    \cs_set_eq:NN \__xdyymath_mathbb:n \symbb
-    \cs_set_eq:NN \__xdyymath_mathcal:n \symcal
-    \cs_set_eq:NN \__xdyymath_mathscr:n \symscr
+    \IfPackageLoadedTF { unicode-math }
+      {
+        \cs_set_eq:NN \__xdyymath_mathbb:n \symbb
+        \cs_set_eq:NN \__xdyymath_mathcal:n \symcal
+        \cs_set_eq:NN \__xdyymath_mathscr:n \symscr
+        \cs_set_eq:NN \__xdyymath_mathrm:n \symrm
+        % 数学字体
+        \setmathfont{NewCMMath-Book.otf}[]
+        \setmathfont{XITSMath-Regular.otf}[range={"02205}]	% 将空集符号字体设置为 XITS
+      }
+      {
+        % \RequirePackage { unicode-math } 
+        \cs_set_eq:NN \__xdyymath_mathbb:n \mathbb
+        \cs_set_eq:NN \__xdyymath_mathcal:n \mathcal
+        \cs_set_eq:NN \__xdyymath_mathscr:n \mathscr
+        \cs_set_eq:NN \__xdyymath_mathrm:n \mathrm
+        % \cs_set_eq:NN \__xdyymath_mathbb:n \symbb
+        % \cs_set_eq:NN \__xdyymath_mathcal:n \symcal
+        % \cs_set_eq:NN \__xdyymath_mathscr:n \symscr
+      }
   }
 
 \cs_set:Npn \__xdyymath_math_symbol_new_mathbb:n #1
@@ -516,12 +523,12 @@
 
 % \text 命令，让两边增加一点间距
 
-\cs_set_eq:NN \__xdyymath_text:n \text
+% \cs_set_eq:NN \__xdyymath_text:n \text
 
-\RenewDocumentCommand { \text } { m }
-  {
-    \__xdyymath_text:n { \, #1 \, }
-  }
+% \RenewDocumentCommand { \text } { m }
+%   {
+%     \, \__xdyymath_text:n {#1} \,
+%   }
 
 % 简化命令
 
@@ -575,7 +582,7 @@
 
 % 一些集合
 \RenewDocumentCommand { \emptyset } { } { \ensuremath { \varnothing } }
-\NewDocumentCommand { \Rn } { } { \ensuremath { \symbb{R}^n } }
+% \NewDocumentCommand { \Rn } { } { \ensuremath { \symbb{R}^n } }
 \NewDocumentCommand { \Rm } { } { \ensuremath { \symbb{R}^m } }
 \NewDocumentCommand { \Rk } { } { \ensuremath { \symbb{R}^k } }
 \NewDocumentCommand { \Cn } { } { \ensuremath { \symbb{C}^n } }
@@ -644,15 +651,13 @@
   }
 
 % 一些常量
-\NewDocumentCommand { \e } { } { \symrm { e } }
-\RenewDocumentCommand { \i } { } { \symrm { i } }
+\NewDocumentCommand { \e } { } { \__xdyymath_mathrm:n { e } }
+\RenewDocumentCommand { \i } { } { \__xdyymath_mathrm:n { i } }
 \AtBeginDocument
   {
     \tl_set_eq:NN \l__xdyymath_pi_tl { \pi }
-    \tl_set:Nn \pi { \symrm { \l__xdyymath_pi_tl } }
+    \tl_set:Nn \pi { \__xdyymath_mathrm:n { \l__xdyymath_pi_tl } }
   }
 
-% 数学字体
-\setmathfont{NewCMMath-Book.otf}[]
-\setmathfont{XITSMath-Regular.otf}[range={"02205}]	% 将空集符号字体设置为 XITS
+
 \ExplSyntaxOff

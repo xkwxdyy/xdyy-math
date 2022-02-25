@@ -2469,15 +2469,15 @@
     \date{Released~\ExplFileDate}
     \maketitle
   }
-\AtBeginDocument
-  {
-    \clist_map_inline:nn
-      {
-       asin, acos, atan, acot,
-       asinh, acosh, atanh, acoth, round, floor, ceil
-      }
-      { \exp_args:Nc \DeclareMathOperator{#1}{#1} }
-  }
+% \AtBeginDocument
+%   {
+%     \clist_map_inline:nn
+%       {
+%        asin, acos, atan, acot,
+%        asinh, acosh, atanh, acoth, round, floor, ceil
+%       }
+%       { \exp_args:Nc \DeclareMathOperator{#1}{#1} }
+%   }
 \NewDocumentCommand { \nan } { } { \text { \texttt { nan } } }
 %% 
 %%
