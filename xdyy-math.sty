@@ -2,7 +2,7 @@
 \RequirePackage{expl3}
 \RequirePackage{xparse}
 \ProvidesPackage{xdyy-math}
-  [2022/02/24 v0.0.4 A LaTeX package for some math needs.]
+  [2022/02/25 v0.0.5 A LaTeX package for some math needs.]
 
 
 % 加载宏包
@@ -15,9 +15,8 @@
 \PassOptionsToPackage{dvipsnames, svgnames, x11names}{xcolor}
 \RequirePackage[most]{tcolorbox}    % 彩框
 \RequirePackage{manfnt}             % 提供“危险”符号
-% \AtEndPreamble
-%   { \RequirePackage { unicode-math } }
-
+\RequirePackage{fontsetup}
+\RequirePackage[physics]{physicx}
 
 % 加载tikz的库
 \usetikzlibrary{calc}               % 相对位置
@@ -34,10 +33,14 @@
 \tcbuselibrary{hooks}
 
 
+\ExplSyntaxOn
+% 间距
+\dim_set:Nn \lineskiplimit { .5em }
+\skip_set:Nn \lineskip { .5em }
 
 % 定义定理环境
 
-\ExplSyntaxOn
+
 \declaretheoremstyle
   [
     spaceabove = 6pt,
@@ -50,7 +53,7 @@
     headpunct = {},
     postheadspace = 1em,
   ]
-  {withoutcounterstyle}
+  { withoutcounterstyle }
 
 \cs_new:Npn \__xdyymath_declare_theorem_with_counter:n #1
   {
@@ -412,164 +415,6 @@
   }
 
 
-
-% 重定义命令
-
-% 强调 emph
-\keys_define:nn { xdyy-math / emph }
-  {
-    color .tl_set:N = \l__xdyymath_emph_math_color_tl,
-  }
-\RenewDocumentCommand { \emph } { O{} m }
-  {
-    \group_begin:
-      \if_mode_math:
-        \tl_set:Nn \l__xdyymath_emph_math_color_tl
-          { red!80 }
-      \else:
-        \tl_set:Nn \l__xdyymath_emph_math_color_tl
-          { black }
-      \fi:
-      \keys_set:nn { xdyy-math / emph } {#1}
-      \color{ \l__xdyymath_emph_math_color_tl }
-      \if_mode_math:
-        #2
-      \else:
-        \itshape #2
-      \fi:
-    \group_end:
-  }
-
-% \text 命令，让两边增加一点间距
-
-\cs_set_eq:NN \__xdyymath_text:n \text
-
-\RenewDocumentCommand { \text } { m }
-  {
-    \__xdyymath_text:n { \, #1 \, }
-  }
-
-% 简化命令
-
-% 集合 set
-\NewDocumentCommand { \set } { +m +m }
-  {
-    \left\{ \,\, #1 :  #2 \, \right\} 
-  }
-
-% 使得 such that : s.t.
-\NewDocumentCommand { \st } { }
-  {
-    \if_mode_math: 
-      \text { \,\, s.t. \,\, }
-    \else:
-      \, s.t. \,\,
-    \fi
-  }
-
-% 几乎处处 almost everywhere: a.e.
-\DeclareDocumentCommand { \ae } { }
-  {
-    \if_mode_math: 
-      \text { \,\, a.e. \,\, }
-    \else:
-      \, a.e. \,\,
-    \fi
-  }
-
-% 也就是说 i.e.
-\NewDocumentCommand { \ie } { }
-  {
-    \if_mode_math: 
-      \text { \,\, i.e. \,\, }
-    \else:
-      \, i.e. \,\,
-    \fi
-  }
-
-
-
-% 定义符号 := 与=: 与 =上有个delta
-\NewDocumentCommand { \coloneq } { } { := }
-\NewDocumentCommand { \eqcolon } { } { := }
-\NewDocumentCommand { \deltaeq } { } { \xlongequal{\Delta} }
-
-% 一些箭头
-\NewDocumentCommand { \so } { } { \ensuremath{\Rightarrow} }
-\NewDocumentCommand { \So } { } { \ensuremath{\Longrightarrow} }
-\NewDocumentCommand { \equivalent } { } { \ensuremath{\Longleftrightarrow} }
-
-% 一些集合
-\RenewDocumentCommand { \emptyset } { } { \ensuremath{\varnothing} }
-\NewDocumentCommand { \Rn } { } { \ensuremath{\symbb{R}^n} }
-\NewDocumentCommand { \Cn } { } { \ensuremath{\symbb{C}^n} }
-% \NewDocumentCommand {  } { } {  }
-
-
-
-
-% \newcommand{\pie}{^{\prime}} %pie=撇
-% \newcommand{\dx}{\dd x}
-% \newcommand{\dy}{\dd y}
-% \newcommand{\dt}{\dd t}
-
-% \newcommand{\lrangle}[2]{\langle#1,#2\rangle}
-% \newcommand{\generatedgroup}[1]{\langle#1\rangle} % generated group by a set, used in algebra
-% \newcommand{\closure}[1]{\bar{#1}} % the closure of a set
-% \newcommand{\diag}{\mathrm{diag}}
-% \newcommand{\innerp}[2]{\left\langle#1,#2\right\rangle}
-% \newcommand{\conjugate}[1]{\overline{#1}}
-% \newcommand{\cont}[1]{\mathrm{Cont}(#1)}
-% \newcommand{\id}{\mathrm{id}}
-% % \newcommand{\abs}[1]{\ensuremath{\left| #1 \right| }}
-% % \newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
-% \newcommand{\tabs}[1]{\ensuremath{\lvert #1\rvert}}
-% \newcommand{\tnorm}[1]{\ensuremath{\lVert #1\rVert}}
-% \newcommand{\weakto}{\ensuremath{\overset{w.}{\longrightarrow}}}
-% \newcommand{\sweakto}{\ensuremath{\overset{\Star{w.}}{\longrightarrow}}}
-% \newcommand{\sgn}{\mathrm{sgn}\,}
-% \newcommand{\sssum}{\ensuremath{{\scriptscriptstyle\sum}}}
-% \newcommand{\Gd}{\ensuremath{\G_{\delta}}}
-% \newcommand{\Star}[1]{#1^{*}}
-% %声明数学operator
-% \DeclareMathOperator{\rad}{rad}
-% \DeclareMathOperator{\diam}{diam}
-% \DeclareMathOperator{\fin}{fin}
-% \DeclareMathOperator{\esssup}{ess\,sup}
-% \DeclareMathOperator{\conv}{Conv}
-% \DeclareMathOperator{\Span}{span} %% 因为\span已经在宏中定义, 这里使用大写的\Span来表示线性张成
-% % \DeclareMathOperator{\cont}{Cont} %% 表示函数的连续点
-% % \DeclareMathOperator{\supp}{supp}
-% % \DeclareMathOperator{\diag}{diag}
-% \DeclareMathOperator{\codim}{codim}
-% \DeclareMathOperator{\convba}{Convba}
-% \DeclareMathOperator{\Image}{Im}
-% \newcommand{\dif}{\mathop{}\!\mathrm{d}}
-% \newcommand{\diff}{\mathop{}\!\mathrm{d}}
-% \newcommand{\du}{\mathop{}\!\mathrm{d}\mu}
-% % \newcommand{\lrangle}[2]{\langle #1, #2 \rangle}
-% \renewcommand{\div}{\operatorname{div}}
-% \newcommand{\e}{\mathrm{e}}
-% \newcommand{\T}{\mathrm{T}}
-% \newcommand{\ii}{\mathrm{i}}
-% % Differential Operator(在多种实现方法之中，个人认为此方法最佳)
-% % \newcommand{\diff}{\mathop{}\!\mathrm{d}}
-% % Declare Math Operator
-% % \DeclareMathOperator{\codim}{codim}
-% % \DeclareMathOperator{\conv}{conv}
-% % \DeclareMathOperator{\diam}{diam} % diameter
-% % \DeclareMathOperator{\rank}{rank}
-% % \DeclareMathOperator{\sgn}{sgn}
-% \DeclareMathOperator{\spt}{spt} % support set
-% \DeclareMathOperator{\supp}{supp} % another support set
-% \DeclareMathOperator{\lcm}{lcm} % least common multiple
-% % \DeclareMathOperator{\Span}{span}
-% % Real and Imaginary part of complex numbers
-% \renewcommand{\Re}{\operatorname{Re}}
-% \renewcommand{\Im}{\operatorname{Im}}
-% % \newommand{\Deltaeq}{\xlongequal{\Delta}}
-
-
 % 定义数学符号
 \cs_new:Npn \__xdyymath_newcommand:Nn #1#2 { \newcommand {#1} {#2} }
 \cs_generate_variant:Nn \__xdyymath_newcommand:Nn { c }
@@ -641,6 +486,171 @@
   }
   \__xdyymath_math_symbol_new_mathsrc:n
 
+
+% 重定义命令
+
+% 强调 emph
+\keys_define:nn { xdyy-math / emph }
+  {
+    color .tl_set:N = \l__xdyymath_emph_math_color_tl,
+  }
+\RenewDocumentCommand { \emph } { O{} m }
+  {
+    \group_begin:
+      \if_mode_math:
+        \tl_set:Nn \l__xdyymath_emph_math_color_tl
+          { red!80 }
+      \else:
+        \tl_set:Nn \l__xdyymath_emph_math_color_tl
+          { black }
+      \fi:
+      \keys_set:nn { xdyy-math / emph } {#1}
+      \color{ \l__xdyymath_emph_math_color_tl }
+      \if_mode_math:
+        #2
+      \else:
+        \itshape #2
+      \fi:
+    \group_end:
+  }
+
+% \text 命令，让两边增加一点间距
+
+\cs_set_eq:NN \__xdyymath_text:n \text
+
+\RenewDocumentCommand { \text } { m }
+  {
+    \__xdyymath_text:n { \, #1 \, }
+  }
+
+% 简化命令
+
+% 集合 set
+\NewDocumentCommand { \set } { +m +m }
+  {
+    \left\{ \,\, #1 :  #2 \, \right\} 
+  }
+
+% 使得 such that: s.t.
+\NewDocumentCommand { \st } { }
+  {
+    \if_mode_math: 
+      \text { \,\, s.t. \,\, }
+    \else:
+      \, s.t. \,\,
+    \fi
+  }
+
+% 几乎处处 almost everywhere: a.e.
+\DeclareDocumentCommand { \ae } { }
+  {
+    \if_mode_math: 
+      \text { \,\, a.e. \,\, }
+    \else:
+      \, a.e. \,\,
+    \fi
+  }
+
+% 也就是说 i.e.
+\NewDocumentCommand { \ie } { }
+  {
+    \if_mode_math: 
+      \text { \,\, i.e. \,\, }
+    \else:
+      \, i.e. \,\,
+    \fi
+  }
+
+
+% "定义"符号 := 与=: 与 =上有个delta
+\NewDocumentCommand { \coloneq } { } { := }
+\NewDocumentCommand { \eqcolon } { } { =: }
+\NewDocumentCommand { \deltaeq } { } { \xlongequal{\Delta} }
+
+
+% 一些箭头
+\NewDocumentCommand { \so } { } { \ensuremath { \implies } } 
+\cs_set:Nn \iff: { \ensuremath  { \Longleftrightarrow } }
+\cs_set_eq:NN \iff \iff:
+
+% 一些集合
+\RenewDocumentCommand { \emptyset } { } { \ensuremath { \varnothing } }
+\NewDocumentCommand { \Rn } { } { \ensuremath { \symbb{R}^n } }
+\NewDocumentCommand { \Rm } { } { \ensuremath { \symbb{R}^m } }
+\NewDocumentCommand { \Rk } { } { \ensuremath { \symbb{R}^k } }
+\NewDocumentCommand { \Cn } { } { \ensuremath { \symbb{C}^n } }
+\NewDocumentCommand { \Cm } { } { \ensuremath { \symbb{C}^m } }
+\NewDocumentCommand { \Ck } { } { \ensuremath { \symbb{C}^k } }
+% \NewDocumentCommand {  } { } {  }
+% \NewDocumentCommand {  } { } {  }
+
+\AtBeginDocument
+  {
+    \RenewDocumentCommand { \closure } { m } { \overline{ \ensuremath{#1} } }
+  }
+
+
+% 一些运算
+\NewDocumentCommand { \lrangle } { m m }
+  { \ensuremath { \langle #1,~#2 \rangle } }
+\cs_set_eq:NN \innerproduct \lrangle
+\NewDocumentCommand { \pie } { } { ^{ \prime } }    % 撇 '
+\NewDocumentCommand { \conjugate } { m } { \overline{ \ensuremath{#1} } }    % 共轭
+\cs_set_eq:NN \leq \leqslant
+\cs_set_eq:NN \geq \geqslant
+
+% 一些operator
+\cs_set_eq:NN \__xdyymath_declare_math_operator:Nn \DeclareMathOperator
+\cs_generate_variant:Nn \__xdyymath_declare_math_operator:Nn { cn }
+% 不变的类型，比如\diam: diam
+\cs_new:Npn \__xdyymath_declare_math_operator_same:n #1
+  {
+    \__xdyymath_declare_math_operator:cn { #1 } { #1 }
+  }
+% 变成首字母大写的
+\cs_new:Npn \__xdyymath_declare_math_operator_titlecase:n #1
+  {
+    \__xdyymath_declare_math_operator:cn { #1 } 
+      { 
+        % \str_uppercase:f { \tl_head:n {#1} } 
+        % \tl_tail:n {#1}
+        \text_titlecase:n { #1 }
+      }
+  }
+
+% 全小写的
+\clist_map_function:nN
+  {
+    diam, supp, sgn, codim,
+  }
+  \__xdyymath_declare_math_operator_same:n
+
+% 首字母大写的
+\clist_map_function:nN
+  {
+    cont
+  }
+  \__xdyymath_declare_math_operator_titlecase:n
+
+
+% 一些特殊处理的
+\__xdyymath_declare_math_operator:Nn \Span { span }
+\__xdyymath_declare_math_operator:Nn \image { Im }
+\__xdyymath_declare_math_operator:Nn \kernel { Ker }
+\AtBeginDocument
+  {
+    \RenewDocumentCommand { \Re } { } { \operatorname {Re} }
+    \RenewDocumentCommand { \Im } { } { \operatorname {Im} }
+  }
+
+% 一些常量
+\NewDocumentCommand { \e } { } { \symrm { e } }
+\RenewDocumentCommand { \i } { } { \symrm { i } }
+\AtBeginDocument
+  {
+    \tl_set_eq:NN \l__xdyymath_pi_tl { \pi }
+    \tl_set:Nn \pi { \symrm { \l__xdyymath_pi_tl } }
+  }
 
 % 数学字体
 \setmathfont{NewCMMath-Book.otf}[]
