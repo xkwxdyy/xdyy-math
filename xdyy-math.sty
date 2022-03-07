@@ -2,7 +2,7 @@
 \RequirePackage{expl3}
 \RequirePackage{xparse}
 \ProvidesPackage{xdyy-math}
-  [2022/02/25 v0.0.5 A LaTeX package for some math needs.]
+  [2022/03/07 v0.0.6 A LaTeX package for some math needs.]
 
 
 % 加载宏包
@@ -412,6 +412,64 @@
     % “吃掉后面的空格”
     \ignorespaces
   }
+
+
+% 定义充分必要性环境
+
+% 必要性
+\NewDocumentEnvironment { necessity } { +b }
+  {
+    \par \noindent
+    \framebox
+      {
+        $
+          \xLongrightarrow
+          { \text { \normalsize 必要性 } }
+        $ 
+      }
+    \par \addvspace{ .5em plus .5em minus .2em }
+    \par #1
+    \par \addvspace{ .5em plus .5em minus .2em }
+  }
+  {}
+
+% 充分性
+\NewDocumentEnvironment { sufficiency } { +b }
+  {
+    \par \noindent 
+    \framebox
+      {
+        $
+          \xLongleftarrow 
+          { \text{ \normalsize 充分性 } }
+        $ 
+      }
+    \par \addvspace{ .5em plus .5em minus .2em }
+    \par #1
+    \par \addvspace{ .5em plus .5em minus .2em }
+  }
+  {}
+
+
+\NewDocumentEnvironment { existence } { +b }
+  {
+    \par \noindent
+    （存在性）
+    \par \addvspace{ .5em plus .5em minus .2em }
+    \par #1
+    \par \addvspace{ .5em plus .5em minus .2em }
+  }
+  {}
+
+\NewDocumentEnvironment { uniqueness } { +b }
+  {
+    \par \noindent
+    （唯一性）
+    \par \addvspace{ .5em plus .5em minus .2em }
+    \par #1
+    \par \addvspace{ .5em plus .5em minus .2em }
+  }
+  {}
 
 
 % 定义数学符号

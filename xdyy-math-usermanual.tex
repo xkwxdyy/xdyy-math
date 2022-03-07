@@ -5,8 +5,8 @@
     author            = {夏康玮},
     title             = { \pkg{xdyy-math} 用户手册},
     email             = {kangweixia_xdyy@163.com},
-    date              = {2022-02-25},
-    version           = {0.0.5},
+    date              = {2022-03-07},
+    version           = {0.0.6},
     github-repository = {https://github.com/xkwxdyy/xdyy-math},
     gitee-repository  = {https://gitee.com/xkwxdyy/xdyy-math},
   }
@@ -149,6 +149,8 @@
     \item method方法（list型环境）
     \item step步骤（list型环境）
     \item case多情形（list型环境）
+    \item 充分性、必要性
+    \item 存在性、唯一性
   \end{xchoices}
 
 \begin{vexample}
@@ -259,6 +261,28 @@
         \item 步骤1
         \item 步骤2
       \end{step}
+    \end{proof}
+\end{vexample}
+
+\begin{vexample}
+    \begin{proof}
+      \begin{existence}
+        下面证明存在性
+      \end{existence}
+      \begin{uniqueness}
+        下面证明唯一性
+      \end{uniqueness}
+    \end{proof}
+\end{vexample}
+
+\begin{vexample}
+    \begin{proof}
+      \begin{sufficiency}
+        下面证明充分性
+      \end{sufficiency}
+      \begin{necessity}
+        下面证明必要性
+      \end{necessity}
     \end{proof}
 \end{vexample}
 \end{document}
