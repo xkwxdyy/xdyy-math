@@ -10,11 +10,12 @@
 \RequirePackage{varwidth}           % 最小宽度型的minipage
 \RequirePackage{extarrows}          % 箭头
 \RequirePackage{enumitem}           % 定制list环境
+\RequirePackage{amssymb}
 \RequirePackage{amsthm, thmtools}   % 定义定理环境
 \RequirePackage{xcolor}
 \RequirePackage[most]{tcolorbox}    % 彩框
 \RequirePackage{manfnt}             % 提供“危险”符号
-\RequirePackage{fontsetup}
+% \RequirePackage{fontsetup}
 \RequirePackage[physics]{physicx}
 
 % 加载tikz的库
@@ -354,6 +355,9 @@
     below-hsep .initial:n = 0pt,
     above-hsep .dim_set:N = \l__xdyymath_overlay_above_hsep_dim,
     above-hsep .initial:n = 0pt,
+    % 整体移动
+    vsep .dim_set:N = \l__xdyymath_overlay_vsep_dim,
+    vsep .initial:n = 0pt,
     % scale
     below-scale .fp_set:N = \l__xdyymath_overlay_below_scale_fp,
     below-scale .initial:n = 1,
@@ -371,7 +375,8 @@
       \keys_set:nn { xdyy-math / overlay } {#1}
       \begin{tikzpicture}
         [
-          baseline,
+          baseline = 
+            { ( [ yshift = - \l__xdyymath_overlay_vsep_dim ]current~bounding~box.base ) },
           inner~sep = 0pt, outer~sep = 0pt
         ]
         \node
@@ -651,7 +656,8 @@
 
 \AtBeginDocument
   {
-    \RenewDocumentCommand { \closure } { m } { \overline{ \ensuremath{#1} } }
+    % \RenewDocumentCommand { \closure } { m } { \overline{ \ensuremath{#1} } }
+    \NewDocumentCommand { \closure } { m } { \overline{ \ensuremath{#1} } }
   }
 
 
